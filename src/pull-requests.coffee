@@ -16,7 +16,7 @@ module.exports = (robot) ->
   robot.respond /prs/i, (hubot) ->
     values = []
     values.push value for key, value of pullrequests()
-    msg.send "PRs abertos:\n#{values.join('\n')}"
+    hubot.send "PRs abertos:\n#{values.join('\n')}"
 
   robot.router.post '/bitbucket-pullrequests', (req, res) ->
     payload = req.body

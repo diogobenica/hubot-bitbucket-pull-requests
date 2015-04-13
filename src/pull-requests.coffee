@@ -16,7 +16,6 @@ module.exports = (robot) ->
   robot.router.post '/bitbucket-pullrequests', (req, res) ->
     payload = req.body
 
-    console.log(payload)
     if payload.pullrequest_created
       payload = payload.pullrequest_created
 
@@ -35,4 +34,4 @@ module.exports = (robot) ->
             link = payload.links.self.href
           msg = "PR ##{payload.id}: #{payload.title} (#{payload.destination.repository.full_name}) by @#{payload.author.username} (#{link})"
           robot.messageRoom req.query.room, msg
-          res.end 'OK'
+    res.end 'OK'

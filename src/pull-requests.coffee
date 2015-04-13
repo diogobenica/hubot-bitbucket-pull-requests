@@ -23,7 +23,7 @@ module.exports = (robot) ->
         .http("https://api-ssl.bitly.com/v3/shorten")
         .query
           access_token: process.env.HUBOT_BITLY_ACCESS_TOKEN
-          longUrl: payload.links.self
+          longUrl: payload.links.self.href
           format: "json"
         .get() (err, res, body) ->
           response = JSON.parse body

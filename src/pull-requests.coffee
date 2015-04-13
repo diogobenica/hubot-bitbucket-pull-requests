@@ -13,11 +13,17 @@
 module.exports = (robot) ->
   pullrequests = () -> robot.brain.data.remember ?= {}
 
+  robot.respond /prs/i, (hubot) ->
+    values = []
+    values.push value for key, value of pullrequests()
+    msg.send "PRs abertos:\n#{values.join('\n')}"
+
   robot.router.post '/bitbucket-pullrequests', (req, res) ->
     payload = req.body
 
     if payload.pullrequest_created
       payload = payload.pullrequest_created
+      pr_uid = payload.destination.repository.name+"_"+payload.id
 
       robot
         .http("https://api-ssl.bitly.com/v3/shorten")
@@ -34,4 +40,7 @@ module.exports = (robot) ->
             link = payload.links.self.href
           msg = "PR ##{payload.id}: #{payload.title} (#{payload.destination.repository.full_name}) by @#{payload.author.username} (#{link})"
           robot.messageRoom req.query.room, msg
+      pullrequests()[pr_uid] = "[#{payload.destination.repository.full_name}] #{payload.id}: #{payload.title}"
+    else if payload.pullrequest_merged or payload.pullrequest_declined
+      delete pullrequests()[pr_uid]
     res.end 'OK'

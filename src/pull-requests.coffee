@@ -32,7 +32,7 @@ module.exports = (robot) ->
           if response.status_code is 200
             link = response.data.url
           else
-            link = payload.links.self
+            link = payload.links.self.href
           msg = "PR ##{payload.id}: #{payload.title} (#{payload.destination.repository.full_name}) by @#{payload.author.username} (#{link})"
           robot.messageRoom req.query.room, msg
           res.end 'OK'

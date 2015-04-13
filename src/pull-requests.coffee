@@ -11,7 +11,7 @@
 #   Diogo Benicá (@diogobenica)
 
 module.exports = (robot) ->
-  pullrequests = () -> robot.brain.data.remember ?= {}
+  pullrequests = () -> robot.brain.data.bitbucket_pull_requests ?= {}
 
   robot.respond /prs/i, (hubot) ->
     values = []

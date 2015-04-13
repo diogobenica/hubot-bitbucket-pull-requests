@@ -16,6 +16,7 @@ module.exports = (robot) ->
   robot.router.post '/bitbucket-pullrequests', (req, res) ->
     payload = req.body
 
+    console.log(payload)
     if payload.pullrequest_created
       payload = payload.pullrequest_created
 
@@ -27,6 +28,7 @@ module.exports = (robot) ->
           format: "json"
         .get() (err, res, body) ->
           response = JSON.parse body
+          console.log(response)
           if response.status_code is 200
             link = response.data.url
           else

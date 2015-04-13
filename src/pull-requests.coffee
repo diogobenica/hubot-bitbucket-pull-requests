@@ -24,8 +24,7 @@ module.exports = (robot) ->
     if payload.pullrequest_created
       payload = payload.pullrequest_created
       pr_uid = payload.destination.repository.name+"_"+payload.id
-      msg = ""
-      
+
       robot
         .http("https://api-ssl.bitly.com/v3/shorten")
         .query
@@ -40,7 +39,7 @@ module.exports = (robot) ->
             link = payload.links.self.href
           msg = "[#{payload.destination.repository.name}] PR ##{payload.id}: #{payload.title} by @#{payload.author.username} (#{link})"
           robot.messageRoom req.query.room, msg
-      pullrequests()[pr_uid] = msg
+          pullrequests()[pr_uid] = msg
     else if payload.pullrequest_merged
       payload = payload.pullrequest_merged
       pr_uid = payload.destination.repository.name+"_"+payload.id

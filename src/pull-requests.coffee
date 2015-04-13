@@ -37,9 +37,9 @@ module.exports = (robot) ->
             link = response.data.url
           else
             link = payload.links.self.href
-          msg = "PR ##{payload.id}: #{payload.title} (#{payload.destination.repository.full_name}) by @#{payload.author.username} (#{link})"
+          msg = "[#{payload.destination.repository.name}] PR ##{payload.id}: #{payload.title} by @#{payload.author.username} (#{link})"
           robot.messageRoom req.query.room, msg
-      pullrequests()[pr_uid] = "[#{payload.destination.repository.full_name}] #{payload.id}: #{payload.title}"
+      pullrequests()[pr_uid] = msg
     else if payload.pullrequest_merged
       payload = payload.pullrequest_merged
       pr_uid = payload.destination.repository.name+"_"+payload.id

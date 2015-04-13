@@ -33,7 +33,6 @@ module.exports = (robot) ->
           format: "json"
         .get() (err, res, body) ->
           response = JSON.parse body
-          console.log(response)
           if response.status_code is 200
             link = response.data.url
           else
@@ -42,5 +41,6 @@ module.exports = (robot) ->
           robot.messageRoom req.query.room, msg
       pullrequests()[pr_uid] = "[#{payload.destination.repository.full_name}] #{payload.id}: #{payload.title}"
     else if payload.pullrequest_merged or payload.pullrequest_declined
+      console.log("Merged or declined #{pr_uid}")
       delete pullrequests()[pr_uid]
     res.end 'OK'

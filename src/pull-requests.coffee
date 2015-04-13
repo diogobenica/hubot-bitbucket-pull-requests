@@ -40,7 +40,13 @@ module.exports = (robot) ->
           msg = "PR ##{payload.id}: #{payload.title} (#{payload.destination.repository.full_name}) by @#{payload.author.username} (#{link})"
           robot.messageRoom req.query.room, msg
       pullrequests()[pr_uid] = "[#{payload.destination.repository.full_name}] #{payload.id}: #{payload.title}"
-    else if payload.pullrequest_merged or payload.pullrequest_declined
-      console.log("Merged or declined #{pr_uid}")
+    else if payload.pullrequest_merged
+      payload = payload.pullrequest_merged
+      pr_uid = payload.destination.repository.name+"_"+payload.id
       delete pullrequests()[pr_uid]
+    else if payload.pullrequest_declined
+      payload = payload.pullrequest_declined
+      pr_uid = payload.destination.repository.name+"_"+payload.id
+      delete pullrequests()[pr_uid]
+
     res.end 'OK'

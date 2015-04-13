@@ -24,7 +24,8 @@ module.exports = (robot) ->
     if payload.pullrequest_created
       payload = payload.pullrequest_created
       pr_uid = payload.destination.repository.name+"_"+payload.id
-
+      msg = ""
+      
       robot
         .http("https://api-ssl.bitly.com/v3/shorten")
         .query

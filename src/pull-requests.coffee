@@ -29,14 +29,14 @@ module.exports = (robot) ->
         .http("https://api-ssl.bitly.com/v3/shorten")
         .query
           access_token: process.env.HUBOT_BITLY_ACCESS_TOKEN
-          longUrl: payload.links.self.href
+          longUrl: payload.links.html.href
           format: "json"
         .get() (err, res, body) ->
           response = JSON.parse body
           if response.status_code is 200
             link = response.data.url
           else
-            link = payload.links.self.href
+            link = payload.links.html.href
           msg = "[#{payload.destination.repository.name}] PR ##{payload.id}: #{payload.title} by @#{payload.author.username} (#{link})"
           robot.messageRoom req.query.room, msg
           pullrequests()[pr_uid] = msg
